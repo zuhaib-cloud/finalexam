@@ -1,17 +1,20 @@
-# Pull a public Python base image from Amazon ECR Public to avoid Docker Hub rate limits
 FROM public.ecr.aws/docker/library/python:3.9-slim
 
-# Create an application directory
-WORKDIR /app
+ENV PYTHONUNBUFFERED=1
 
-# Copy only the app.py (or your entire source) into the container
-COPY app.py /app
+# Set a custom work directory
+WORKDIR /usr/src/flask-app
 
-# Install Flask (and any other deps)
-RUN pip install flask
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-# Expose port 5000 within the container
+# Copy app file
+COPY ./app.py .
+
+# Install Flask
+RUN pip install --no-cache-dir flask
+
+# Expose the port Flask runs on
 EXPOSE 5000
 
-# Run the Flask app
+# Run the app
 CMD ["python", "app.py"]
