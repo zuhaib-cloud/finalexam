@@ -7,7 +7,7 @@ ip_address = socket.gethostbyname(hostname)
 
 @app.route('/')
 def hello_cloud():
-  return 'Hello from lastname ECS Container.'
+  return 'Hello from khan ECS Container.'
   
 @app.route('/host')
 def host_name():
